@@ -1,0 +1,2946 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="Planner islamique quotidien, interactif, esthétique et moderne."
+  />
+
+  <title>Mon Planner Islamique 🌙</title>
+
+  <style>
+    /* =========================================================
+       COULEURS ET THÈME
+    ========================================================= */
+
+    :root {
+      --bg: #fff8fc;
+      --bg-secondary: #f8f4ff;
+      --card: rgba(255, 255, 255, 0.87);
+      --card-solid: #ffffff;
+      --text: #3d3442;
+      --muted: #817785;
+      --pink: #ec8fba;
+      --pink-dark: #d7679b;
+      --pink-light: #ffe4f0;
+      --purple: #a992d4;
+      --purple-light: #eee6ff;
+      --gold: #d7ae67;
+      --green: #77ad96;
+      --green-light: #e6f5ed;
+      --border: rgba(197, 149, 181, 0.24);
+      --shadow: 0 16px 45px rgba(139, 97, 128, 0.12);
+      --radius: 26px;
+    }
+
+    body.dark {
+      --bg: #1e1821;
+      --bg-secondary: #241d2a;
+      --card: rgba(48, 39, 53, 0.92);
+      --card-solid: #302735;
+      --text: #fff5fb;
+      --muted: #c5b6c8;
+      --pink: #f1a2c7;
+      --pink-dark: #f08ab9;
+      --pink-light: #513545;
+      --purple: #c3adeb;
+      --purple-light: #403653;
+      --gold: #e3c17d;
+      --green: #8dc7ad;
+      --green-light: #29483b;
+      --border: rgba(255, 255, 255, 0.1);
+      --shadow: 0 16px 45px rgba(0, 0, 0, 0.22);
+    }
+
+    /* =========================================================
+       BASE
+    ========================================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Inter, ui-rounded, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(
+          circle at 10% 5%,
+          rgba(255, 197, 224, 0.46),
+          transparent 27%
+        ),
+        radial-gradient(
+          circle at 90% 12%,
+          rgba(213, 198, 255, 0.42),
+          transparent 28%
+        ),
+        linear-gradient(145deg, var(--bg), var(--bg-secondary));
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      z-index: -1;
+      border-radius: 50%;
+      filter: blur(12px);
+      opacity: 0.45;
+    }
+
+    body::before {
+      width: 220px;
+      height: 220px;
+      top: 25%;
+      left: -100px;
+      background: #ffd5e8;
+    }
+
+    body::after {
+      width: 250px;
+      height: 250px;
+      right: -100px;
+      bottom: 8%;
+      background: #d9cfff;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    input,
+    textarea,
+    select {
+      color: var(--text);
+    }
+
+    .app {
+      width: min(1200px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 70px;
+    }
+
+    /* =========================================================
+       EN-TÊTE
+    ========================================================= */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      background:
+        linear-gradient(
+          130deg,
+          rgba(255, 255, 255, 0.92),
+          rgba(255, 236, 247, 0.86),
+          rgba(238, 231, 255, 0.87)
+        );
+      box-shadow: var(--shadow);
+    }
+
+    body.dark .hero {
+      background:
+        linear-gradient(
+          130deg,
+          rgba(55, 43, 59, 0.96),
+          rgba(75, 48, 65, 0.93),
+          rgba(58, 49, 79, 0.94)
+        );
+    }
+
+    .hero::after {
+      content: "☾";
+      position: absolute;
+      right: 30px;
+      top: -38px;
+      color: rgba(214, 148, 184, 0.15);
+      font-size: 150px;
+      transform: rotate(-15deg);
+    }
+
+    .topbar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--pink-dark);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .subtitle {
+      max-width: 670px;
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .icon-button {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: var(--text);
+      background: var(--card);
+      box-shadow: 0 8px 20px rgba(139, 97, 128, 0.1);
+      font-size: 1.2rem;
+      transition: 0.2s ease;
+    }
+
+    .icon-button:hover {
+      transform: translateY(-2px) rotate(3deg);
+    }
+
+    .date-row {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .date-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--card);
+    }
+
+    .date-box input {
+      border: 0;
+      outline: 0;
+      color: var(--text);
+      background: transparent;
+    }
+
+    .save-status {
+      color: var(--green);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    /* =========================================================
+       PROGRESSION
+    ========================================================= */
+
+    .progress-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 22px;
+      align-items: center;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(15px);
+    }
+
+    .progress-ring {
+      --progress: 0deg;
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      background:
+        conic-gradient(
+          var(--pink-dark) var(--progress),
+          var(--pink-light) 0deg
+        );
+    }
+
+    .progress-ring::before {
+      content: "";
+      position: absolute;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: var(--card-solid);
+    }
+
+    .progress-number {
+      position: relative;
+      z-index: 1;
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    .progress-content h2 {
+      margin: 0 0 6px;
+      font-family: Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 500;
+    }
+
+    .progress-content p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       ONGLETS
+    ========================================================= */
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 5px 2px 14px;
+      scrollbar-width: thin;
+    }
+
+    .tab {
+      flex: 0 0 auto;
+      padding: 11px 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      background: var(--card);
+      font-weight: 750;
+      transition: 0.2s ease;
+    }
+
+    .tab:hover,
+    .tab.active {
+      color: #fff;
+      border-color: transparent;
+      background:
+        linear-gradient(135deg, var(--pink-dark), var(--purple));
+      transform: translateY(-1px);
+    }
+
+    /* =========================================================
+       SECTIONS ET CARTES
+    ========================================================= */
+
+    .section {
+      display: none;
+      animation: fadeUp 0.35s ease;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      grid-column: span 6;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .card.full {
+      grid-column: 1 / -1;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .card-title h2 {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: 1.45rem;
+      font-weight: 500;
+    }
+
+    .badge {
+      padding: 7px 11px;
+      border-radius: 999px;
+      color: var(--pink-dark);
+      background: var(--pink-light);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .soft-note {
+      padding: 14px;
+      border-radius: 16px;
+      color: var(--muted);
+      background:
+        linear-gradient(
+          135deg,
+          var(--pink-light),
+          var(--purple-light)
+        );
+      font-size: 0.91rem;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       CHAMPS
+    ========================================================= */
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      outline: none;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.55);
+      transition: 0.2s ease;
+    }
+
+    body.dark input[type="text"],
+    body.dark input[type="number"],
+    body.dark textarea,
+    body.dark select {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--pink);
+      box-shadow: 0 0 0 4px rgba(236, 143, 186, 0.13);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .lined {
+      min-height: 190px;
+      line-height: 32px;
+      background-image:
+        linear-gradient(
+          transparent 31px,
+          rgba(201, 151, 183, 0.18) 32px
+        );
+      background-size: 100% 32px;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* =========================================================
+       CHECKBOXES
+    ========================================================= */
+
+    .check-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.38);
+      transition: 0.2s ease;
+    }
+
+    body.dark .check-item {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .check-item:hover {
+      border-color: var(--pink);
+      transform: translateX(2px);
+    }
+
+    .check-item input[type="checkbox"] {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      border: 2px solid #d9b6c9;
+      border-radius: 7px;
+      background: transparent;
+      transition: 0.2s ease;
+    }
+
+    .check-item input[type="checkbox"]::after {
+      content: "✓";
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 900;
+      transform: scale(0);
+      transition: 0.15s ease;
+    }
+
+    .check-item input[type="checkbox"]:checked {
+      border-color: transparent;
+      background:
+        linear-gradient(135deg, var(--pink-dark), var(--purple));
+    }
+
+    .check-item input[type="checkbox"]:checked::after {
+      transform: scale(1);
+    }
+
+    .check-item:has(input:checked) {
+      color: var(--muted);
+      background: var(--pink-light);
+    }
+
+    /* =========================================================
+       PÉRIODE DE MENSTRUES
+    ========================================================= */
+
+    .period-toggle {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding: 15px 16px;
+      border: 1px solid rgba(236, 143, 186, 0.32);
+      border-radius: 18px;
+      background:
+        linear-gradient(
+          135deg,
+          var(--pink-light),
+          var(--purple-light)
+        );
+      cursor: pointer;
+    }
+
+    .period-toggle input {
+      appearance: none;
+      width: 23px;
+      height: 23px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      margin: 1px 0 0;
+      border: 2px solid var(--pink);
+      border-radius: 7px;
+      background: var(--card-solid);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .period-toggle input::after {
+      content: "✓";
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 900;
+      transform: scale(0);
+      transition: 0.15s ease;
+    }
+
+    .period-toggle input:checked {
+      border-color: transparent;
+      background:
+        linear-gradient(135deg, var(--pink-dark), var(--purple));
+    }
+
+    .period-toggle input:checked::after {
+      transform: scale(1);
+    }
+
+    .period-toggle strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .period-toggle small {
+      display: block;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       PRIÈRES
+    ========================================================= */
+
+    .prayer-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .prayer {
+      position: relative;
+      text-align: center;
+      transition: 0.25s ease;
+    }
+
+    .prayer input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .prayer label {
+      display: block;
+      padding: 18px 8px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.43);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    body.dark .prayer label {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .prayer label:hover {
+      border-color: var(--pink);
+      transform: translateY(-3px);
+    }
+
+    .prayer input:checked + label {
+      color: #fff;
+      border-color: transparent;
+      background:
+        linear-gradient(145deg, var(--pink-dark), var(--purple));
+      box-shadow: 0 9px 22px rgba(192, 105, 153, 0.22);
+    }
+
+    .prayer .emoji {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 1.4rem;
+    }
+
+    .prayer-grid.period-active .prayer {
+      opacity: 0.42;
+      filter: grayscale(0.35);
+    }
+
+    .prayer-grid.period-active .prayer label,
+    .prayer-grid.period-active .prayer label:hover {
+      border-color: var(--border);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* =========================================================
+       INVOCATIONS
+    ========================================================= */
+
+    .invocation-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .invocation-card {
+      position: relative;
+      overflow: hidden;
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      background: rgba(255, 255, 255, 0.4);
+      transition: 0.2s ease;
+    }
+
+    body.dark .invocation-card {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .invocation-card:hover {
+      border-color: var(--pink);
+      transform: translateY(-2px);
+    }
+
+    .invocation-card.completed {
+      border-color: rgba(119, 173, 150, 0.5);
+      background: var(--green-light);
+    }
+
+    .invocation-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 13px;
+    }
+
+    .invocation-heading strong {
+      color: var(--pink-dark);
+      font-size: 0.92rem;
+    }
+
+    .invocation-check {
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      border: 2px solid #d9b6c9;
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .invocation-check::after {
+      content: "✓";
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 900;
+      transform: scale(0);
+      transition: 0.15s ease;
+    }
+
+    .invocation-check:checked {
+      border-color: transparent;
+      background:
+        linear-gradient(135deg, var(--pink-dark), var(--purple));
+    }
+
+    .invocation-check:checked::after {
+      transform: scale(1);
+    }
+
+    .dua-arabic {
+      margin: 0 0 10px;
+      color: var(--text);
+      font-family: "Traditional Arabic", "Noto Naskh Arabic", Georgia, serif;
+      font-size: 1.4rem;
+      line-height: 2;
+      text-align: right;
+      direction: rtl;
+    }
+
+    .dua-transliteration {
+      margin: 0 0 8px;
+      color: var(--text);
+      font-size: 0.89rem;
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .dua-translation {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .dua-count {
+      display: inline-block;
+      margin-top: 11px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: var(--pink-dark);
+      background: var(--pink-light);
+      font-size: 0.73rem;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       BOUTONS
+    ========================================================= */
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 43px;
+      padding: 11px 16px;
+      border: 0;
+      border-radius: 14px;
+      color: #fff;
+      background:
+        linear-gradient(135deg, var(--pink-dark), var(--purple));
+      box-shadow: 0 8px 18px rgba(190, 105, 152, 0.2);
+      font-weight: 800;
+      transition: 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(190, 105, 152, 0.28);
+    }
+
+    .button.secondary {
+      color: var(--text);
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: none;
+    }
+
+    .button.danger {
+      color: #a33e62;
+      border: 1px solid rgba(199, 92, 128, 0.2);
+      background: #ffe5ee;
+      box-shadow: none;
+    }
+
+    body.dark .button.danger {
+      color: #ffb4ce;
+      background: #51303e;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    /* =========================================================
+       NOMS D’ALLAH
+    ========================================================= */
+
+    .name-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 20px;
+    }
+
+    .name-counter {
+      padding: 25px;
+      border-radius: 24px;
+      text-align: center;
+      background:
+        linear-gradient(
+          145deg,
+          var(--pink-light),
+          var(--purple-light)
+        );
+    }
+
+    .name-counter .number {
+      display: block;
+      color: var(--pink-dark);
+      font-family: Georgia, serif;
+      font-size: 4rem;
+    }
+
+    .name-counter p {
+      margin: 5px 0 0;
+      color: var(--muted);
+    }
+
+    .name-navigation {
+      display: flex;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 15px;
+    }
+
+    .name-grid {
+      display: grid;
+      grid-template-columns: repeat(11, 1fr);
+      gap: 7px;
+      margin-top: 20px;
+    }
+
+    .name-dot {
+      aspect-ratio: 1;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      background: var(--card);
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .name-dot.current {
+      color: #fff;
+      background: var(--purple);
+    }
+
+    .name-dot.learned {
+      color: #fff;
+      border-color: transparent;
+      background: var(--green);
+    }
+
+    .name-dot.current.learned {
+      outline: 3px solid rgba(236, 143, 186, 0.3);
+    }
+
+    /* =========================================================
+       JOURNALING
+    ========================================================= */
+
+    .prompt {
+      position: relative;
+      padding: 22px;
+      border-radius: 20px;
+      background:
+        linear-gradient(
+          135deg,
+          var(--pink-light),
+          var(--purple-light)
+        );
+    }
+
+    .prompt::before {
+      content: "“";
+      position: absolute;
+      top: -10px;
+      left: 13px;
+      color: rgba(196, 120, 164, 0.22);
+      font-family: Georgia, serif;
+      font-size: 5rem;
+    }
+
+    .prompt p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: 1.18rem;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       PIED DE PAGE ET NOTIFICATIONS
+    ========================================================= */
+
+    footer {
+      padding-top: 30px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 100;
+      right: 20px;
+      bottom: 20px;
+      max-width: calc(100% - 40px);
+      padding: 13px 17px;
+      border-radius: 14px;
+      color: #fff;
+      background: #46384b;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: 0.25s ease;
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 850px) {
+      .card {
+        grid-column: 1 / -1;
+      }
+
+      .prayer-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .name-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .name-grid {
+        grid-template-columns: repeat(9, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .app {
+        width: min(100% - 18px, 1200px);
+        padding-top: 10px;
+      }
+
+      .hero {
+        padding: 22px 18px;
+        border-radius: 24px;
+      }
+
+      .progress-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .progress-ring {
+        margin: 0 auto;
+      }
+
+      .card {
+        padding: 17px;
+        border-radius: 22px;
+      }
+
+      .prayer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .two-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .name-grid {
+        grid-template-columns: repeat(7, 1fr);
+      }
+
+      h1 {
+        font-size: 2.45rem;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .tabs,
+      .icon-button,
+      .actions,
+      footer {
+        display: none !important;
+      }
+
+      .section {
+        display: block !important;
+        margin-bottom: 20px;
+      }
+
+      .card,
+      .hero,
+      .progress-card {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+
+    <!-- =======================================================
+         EN-TÊTE
+    ======================================================== -->
+
+    <header class="hero">
+      <div class="topbar">
+        <div>
+          <p class="eyebrow">Mon espace doux & spirituel</p>
+
+          <h1>Mon Planner Islamique 🌙</h1>
+
+          <p class="subtitle">
+            J’avance avec sincérité, douceur et constance.
+            Chaque petit effort compte et mérite d’être valorisé.
+          </p>
+        </div>
+
+        <button
+          class="icon-button"
+          id="themeButton"
+          type="button"
+          aria-label="Changer le thème"
+          title="Passer du mode clair au mode sombre"
+        >
+          🌙
+        </button>
+      </div>
+
+      <div class="date-row">
+        <div class="date-box">
+          <span>📅</span>
+          <input id="plannerDate" type="date" />
+        </div>
+
+        <span class="save-status" id="saveStatus">
+          ✓ Sauvegarde automatique
+        </span>
+      </div>
+    </header>
+
+    <!-- =======================================================
+         PROGRESSION
+    ======================================================== -->
+
+    <section class="progress-card">
+      <div class="progress-ring" id="progressRing">
+        <span class="progress-number" id="progressNumber">0%</span>
+      </div>
+
+      <div class="progress-content">
+        <h2>Ma progression du jour</h2>
+
+        <p id="progressMessage">
+          Chaque petit pas compte. Commence à ton rythme 🤍
+        </p>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         ONGLETS
+    ======================================================== -->
+
+    <nav class="tabs" aria-label="Navigation du planner">
+      <button class="tab active" type="button" data-tab="today">
+        🕌 Aujourd’hui
+      </button>
+
+      <button class="tab" type="button" data-tab="quran">
+        📖 Coran
+      </button>
+
+      <button class="tab" type="button" data-tab="names">
+        ✨ 99 Noms
+      </button>
+
+      <button class="tab" type="button" data-tab="journal">
+        📝 Journal
+      </button>
+
+      <button class="tab" type="button" data-tab="review">
+        🌙 Bilan
+      </button>
+    </nav>
+
+    <!-- =======================================================
+         ONGLET : AUJOURD’HUI
+    ======================================================== -->
+
+    <section class="section active" id="today">
+      <div class="grid">
+
+        <!-- PRIÈRES -->
+
+        <article class="card full">
+          <div class="card-title">
+            <h2>Mes cinq prières</h2>
+            <span class="badge">Priorité du jour</span>
+          </div>
+
+          <label class="period-toggle" for="menstruationMode">
+            <input
+              id="menstruationMode"
+              type="checkbox"
+              data-save
+            />
+
+            <span>
+              <strong>🌸 Période de menstrues</strong>
+
+              <small>
+                Active cette option afin de désactiver les cases des
+                prières et de les retirer de la progression quotidienne.
+              </small>
+            </span>
+          </label>
+
+          <div class="prayer-grid" id="prayerGrid">
+
+            <div class="prayer">
+              <input
+                id="fajr"
+                type="checkbox"
+                data-save
+                data-progress
+                data-prayer
+              />
+
+              <label for="fajr">
+                <span class="emoji">🌅</span>
+                Fajr
+              </label>
+            </div>
+
+            <div class="prayer">
+              <input
+                id="dhuhr"
+                type="checkbox"
+                data-save
+                data-progress
+                data-prayer
+              />
+
+              <label for="dhuhr">
+                <span class="emoji">☀️</span>
+                Dhuhr
+              </label>
+            </div>
+
+            <div class="prayer">
+              <input
+                id="asr"
+                type="checkbox"
+                data-save
+                data-progress
+                data-prayer
+              />
+
+              <label for="asr">
+                <span class="emoji">🌤️</span>
+                ‘Asr
+              </label>
+            </div>
+
+            <div class="prayer">
+              <input
+                id="maghrib"
+                type="checkbox"
+                data-save
+                data-progress
+                data-prayer
+              />
+
+              <label for="maghrib">
+                <span class="emoji">🌇</span>
+                Maghrib
+              </label>
+            </div>
+
+            <div class="prayer">
+              <input
+                id="isha"
+                type="checkbox"
+                data-save
+                data-progress
+                data-prayer
+              />
+
+              <label for="isha">
+                <span class="emoji">🌙</span>
+                ‘Ishā’
+              </label>
+            </div>
+
+          </div>
+
+          <div class="two-columns" style="margin-top: 15px;">
+            <div class="field">
+              <label class="field-label" for="prayerNote">
+                Réflexion ou note sur mes prières
+              </label>
+
+              <input
+                id="prayerNote"
+                type="text"
+                data-save
+                placeholder="Ex. améliorer ma concentration..."
+              />
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="personalDua">
+                Ma du‘ā personnelle
+              </label>
+
+              <input
+                id="personalDua"
+                type="text"
+                data-save
+                placeholder="Ce que je souhaite confier à Allah..."
+              />
+            </div>
+          </div>
+        </article>
+
+        <!-- INTENTION -->
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Mon intention</h2>
+            <span class="badge">Niyya</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="intention">
+              Aujourd’hui, je souhaite…
+            </label>
+
+            <textarea
+              id="intention"
+              data-save
+              placeholder="Écris une intention sincère pour ta journée..."
+            ></textarea>
+          </div>
+
+          <div class="soft-note">
+            Une intention sincère peut donner un sens spirituel à tes
+            actions ordinaires : étudier, travailler, te reposer,
+            prendre soin de toi ou aider une personne.
+          </div>
+        </article>
+
+        <!-- INVOCATIONS -->
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Mes invocations</h2>
+            <span class="badge">Adhkār</span>
+          </div>
+
+          <div class="invocation-list">
+
+            <!-- Matin -->
+
+            <div class="invocation-card">
+              <div class="invocation-heading">
+                <strong>🌅 Invocation du matin</strong>
+
+                <input
+                  class="invocation-check"
+                  id="morningAdhkar"
+                  type="checkbox"
+                  data-save
+                  data-progress
+                  aria-label="Invocation du matin récitée"
+                />
+              </div>
+
+              <p class="dua-arabic" lang="ar">
+                اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا،
+                وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ،
+                وَإِلَيْكَ النُّشُورُ
+              </p>
+
+              <p class="dua-transliteration">
+                Allāhumma bika aṣbaḥnā, wa bika amsaynā,
+                wa bika naḥyā, wa bika namūtu,
+                wa ilayka-n-nushūr.
+              </p>
+
+              <p class="dua-translation">
+                Ô Allah, c’est par Toi que nous arrivons au matin
+                et par Toi que nous arrivons au soir. Par Toi nous
+                vivons, par Toi nous mourons, et vers Toi se fera
+                la résurrection.
+              </p>
+
+              <span class="dua-count">1 fois</span>
+            </div>
+
+            <!-- Soir -->
+
+            <div class="invocation-card">
+              <div class="invocation-heading">
+                <strong>🌙 Invocation du soir</strong>
+
+                <input
+                  class="invocation-check"
+                  id="eveningAdhkar"
+                  type="checkbox"
+                  data-save
+                  data-progress
+                  aria-label="Invocation du soir récitée"
+                />
+              </div>
+
+              <p class="dua-arabic" lang="ar">
+                اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا،
+                وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ،
+                وَإِلَيْكَ الْمَصِيرُ
+              </p>
+
+              <p class="dua-transliteration">
+                Allāhumma bika amsaynā, wa bika aṣbaḥnā,
+                wa bika naḥyā, wa bika namūtu,
+                wa ilayka-l-maṣīr.
+              </p>
+
+              <p class="dua-translation">
+                Ô Allah, c’est par Toi que nous arrivons au soir
+                et par Toi que nous arrivons au matin. Par Toi nous
+                vivons, par Toi nous mourons, et vers Toi est le retour.
+              </p>
+
+              <span class="dua-count">1 fois</span>
+            </div>
+
+            <!-- Istighfar -->
+
+            <div class="invocation-card">
+              <div class="invocation-heading">
+                <strong>🤍 Demande de pardon</strong>
+
+                <input
+                  class="invocation-check"
+                  id="istighfar"
+                  type="checkbox"
+                  data-save
+                  data-progress
+                  aria-label="Demande de pardon récitée"
+                />
+              </div>
+
+              <p class="dua-arabic" lang="ar">
+                أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ
+              </p>
+
+              <p class="dua-transliteration">
+                Astaghfirullāha wa atūbu ilayh.
+              </p>
+
+              <p class="dua-translation">
+                Je demande pardon à Allah et je me repens auprès de Lui.
+              </p>
+
+              <span class="dua-count">
+                À répéter selon tes possibilités
+              </span>
+            </div>
+
+            <!-- Salawat -->
+
+            <div class="invocation-card">
+              <div class="invocation-heading">
+                <strong>🌸 Prière sur le Prophète ﷺ</strong>
+
+                <input
+                  class="invocation-check"
+                  id="salawat"
+                  type="checkbox"
+                  data-save
+                  data-progress
+                  aria-label="Prière sur le Prophète récitée"
+                />
+              </div>
+
+              <p class="dua-arabic" lang="ar">
+                اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى
+                نَبِيِّنَا مُحَمَّدٍ
+              </p>
+
+              <p class="dua-transliteration">
+                Allāhumma ṣalli wa sallim ‘alā nabiyyinā Muḥammad.
+              </p>
+
+              <p class="dua-translation">
+                Ô Allah, accorde Tes prières et Ton salut à notre
+                Prophète Muḥammad ﷺ.
+              </p>
+
+              <span class="dua-count">
+                À répéter selon tes possibilités
+              </span>
+            </div>
+
+            <!-- Bonne action -->
+
+            <div class="invocation-card">
+              <div class="invocation-heading">
+                <strong>✨ Une bonne action discrète</strong>
+
+                <input
+                  class="invocation-check"
+                  id="goodDeed"
+                  type="checkbox"
+                  data-save
+                  data-progress
+                  aria-label="Bonne action accomplie"
+                />
+              </div>
+
+              <p class="dua-translation">
+                Faire une bonne action connue d’Allah seul :
+                aider une personne, rendre un service, faire une aumône,
+                sourire ou invoquer sincèrement pour quelqu’un.
+              </p>
+            </div>
+
+          </div>
+
+          <p class="soft-note" style="margin: 15px 0 0;">
+            Les adhkār du matin et du soir comprennent d’autres
+            invocations. Cette sélection sert de rappel simple :
+            complète-la avec les invocations que tu apprends auprès
+            d’une source religieuse fiable.
+          </p>
+        </article>
+
+        <!-- PRIORITÉS -->
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Mes trois priorités</h2>
+            <span class="badge">Focus</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="priority1">
+              Priorité 1
+            </label>
+
+            <input
+              id="priority1"
+              type="text"
+              data-save
+              placeholder="La chose la plus importante..."
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="priority2">
+              Priorité 2
+            </label>
+
+            <input
+              id="priority2"
+              type="text"
+              data-save
+              placeholder="Une deuxième priorité réaliste..."
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="priority3">
+              Priorité 3
+            </label>
+
+            <input
+              id="priority3"
+              type="text"
+              data-save
+              placeholder="Une petite victoire possible..."
+            />
+          </div>
+        </article>
+
+        <!-- BIEN-ÊTRE -->
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Prendre soin de moi</h2>
+            <span class="badge">Équilibre</span>
+          </div>
+
+          <div class="check-list">
+            <label class="check-item">
+              <input id="water" type="checkbox" data-save />
+              <span>Boire suffisamment d’eau</span>
+            </label>
+
+            <label class="check-item">
+              <input id="movement" type="checkbox" data-save />
+              <span>Marcher ou bouger un peu</span>
+            </label>
+
+            <label class="check-item">
+              <input id="healthyMeal" type="checkbox" data-save />
+              <span>Prendre un repas nourrissant</span>
+            </label>
+
+            <label class="check-item">
+              <input id="screenBreak" type="checkbox" data-save />
+              <span>Faire une pause sans écran</span>
+            </label>
+
+            <label class="check-item">
+              <input id="tidy" type="checkbox" data-save />
+              <span>Ranger pendant quelques minutes</span>
+            </label>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =======================================================
+         ONGLET : CORAN
+    ======================================================== -->
+
+    <section class="section" id="quran">
+      <div class="grid">
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Ma lecture du Coran</h2>
+            <span class="badge">Connexion</span>
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label class="field-label" for="quranPages">
+                Nombre de pages
+              </label>
+
+              <input
+                id="quranPages"
+                type="number"
+                min="0"
+                data-save
+                placeholder="0"
+              />
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="quranVerses">
+                Nombre de versets
+              </label>
+
+              <input
+                id="quranVerses"
+                type="number"
+                min="0"
+                data-save
+                placeholder="0"
+              />
+            </div>
+          </div>
+
+          <div class="check-list">
+            <label class="check-item">
+              <input
+                id="quranRead"
+                type="checkbox"
+                data-save
+                data-progress
+              />
+
+              <span>J’ai lu ou révisé le Coran</span>
+            </label>
+
+            <label class="check-item">
+              <input id="quranListen" type="checkbox" data-save />
+              <span>J’ai écouté une récitation</span>
+            </label>
+
+            <label class="check-item">
+              <input id="quranMeaning" type="checkbox" data-save />
+
+              <span>
+                J’ai lu une traduction ou une explication fiable
+              </span>
+            </label>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Sourate courte</h2>
+            <span class="badge">Mémorisation</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="surahSelect">
+              Sourate travaillée
+            </label>
+
+            <select id="surahSelect" data-save>
+              <option value="">Choisir une sourate...</option>
+              <option>Al-Fātiḥah</option>
+              <option>Aḍ-Ḍuḥā</option>
+              <option>Ash-Sharḥ</option>
+              <option>At-Tīn</option>
+              <option>Al-‘Alaq</option>
+              <option>Al-Qadr</option>
+              <option>Al-Bayyinah</option>
+              <option>Az-Zalzalah</option>
+              <option>Al-‘Ādiyāt</option>
+              <option>Al-Qāri‘ah</option>
+              <option>At-Takāthur</option>
+              <option>Al-‘Aṣr</option>
+              <option>Al-Humazah</option>
+              <option>Al-Fīl</option>
+              <option>Quraysh</option>
+              <option>Al-Mā‘ūn</option>
+              <option>Al-Kawthar</option>
+              <option>Al-Kāfirūn</option>
+              <option>An-Naṣr</option>
+              <option>Al-Masad</option>
+              <option>Al-Ikhlāṣ</option>
+              <option>Al-Falaq</option>
+              <option>An-Nās</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="surahPart">
+              Versets ou passage travaillé
+            </label>
+
+            <input
+              id="surahPart"
+              type="text"
+              data-save
+              placeholder="Ex. versets 1 à 3..."
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="surahProgress">
+              Ma progression :
+              <span id="surahProgressValue">0%</span>
+            </label>
+
+            <input
+              id="surahProgress"
+              type="range"
+              min="0"
+              max="100"
+              step="10"
+              value="0"
+              data-save
+              style="width: 100%; accent-color: var(--pink-dark);"
+            />
+          </div>
+        </article>
+
+        <article class="card full">
+          <div class="card-title">
+            <h2>Ce que je retiens</h2>
+            <span class="badge">Réflexion</span>
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label class="field-label" for="quranLesson">
+                Un enseignement qui m’a touchée
+              </label>
+
+              <textarea
+                id="quranLesson"
+                data-save
+                placeholder="Ce que j’ai compris ou ressenti..."
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="quranAction">
+                Une chose que je peux appliquer
+              </label>
+
+              <textarea
+                id="quranAction"
+                data-save
+                placeholder="Une petite action concrète..."
+              ></textarea>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =======================================================
+         ONGLET : 99 NOMS
+    ======================================================== -->
+
+    <section class="section" id="names">
+      <div class="grid">
+
+        <article class="card full">
+          <div class="card-title">
+            <h2>Apprendre les Noms d’Allah</h2>
+            <span class="badge" id="learnedBadge">0 / 99 appris</span>
+          </div>
+
+          <div class="name-layout">
+
+            <div>
+              <div class="name-counter">
+                <span class="number" id="currentNameNumber">1</span>
+
+                <strong>Nom étudié</strong>
+
+                <p>
+                  Apprendre avec compréhension et régularité
+                </p>
+              </div>
+
+              <div class="name-navigation">
+                <button
+                  class="button secondary"
+                  id="previousName"
+                  type="button"
+                  aria-label="Nom précédent"
+                >
+                  ←
+                </button>
+
+                <button
+                  class="button"
+                  id="learnName"
+                  type="button"
+                >
+                  ✓ Marquer comme appris
+                </button>
+
+                <button
+                  class="button secondary"
+                  id="nextName"
+                  type="button"
+                  aria-label="Nom suivant"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div class="two-columns">
+                <div class="field">
+                  <label class="field-label" for="nameArabic">
+                    Nom en arabe
+                  </label>
+
+                  <input
+                    id="nameArabic"
+                    type="text"
+                    dir="rtl"
+                    placeholder="Ex. الرَّحْمَنُ"
+                  />
+                </div>
+
+                <div class="field">
+                  <label
+                    class="field-label"
+                    for="nameTransliteration"
+                  >
+                    Translittération
+                  </label>
+
+                  <input
+                    id="nameTransliteration"
+                    type="text"
+                    placeholder="Ex. Ar-Raḥmān"
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="nameMeaning">
+                  Signification étudiée
+                </label>
+
+                <input
+                  id="nameMeaning"
+                  type="text"
+                  placeholder="Écris la signification selon ta source..."
+                />
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="nameReflection">
+                  Ce que ce Nom m’apprend
+                </label>
+
+                <textarea
+                  id="nameReflection"
+                  placeholder="Ma réflexion personnelle..."
+                ></textarea>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="nameSource">
+                  Source consultée
+                </label>
+
+                <input
+                  id="nameSource"
+                  type="text"
+                  placeholder="Livre, cours ou enseignant de confiance..."
+                />
+              </div>
+            </div>
+
+          </div>
+
+          <div class="name-grid" id="nameGrid"></div>
+
+          <p class="soft-note" style="margin: 18px 0 0;">
+            Les listes, translittérations et traductions disponibles
+            peuvent présenter des différences. Les champs restent
+            personnalisables afin que tu puisses utiliser une source
+            religieuse fiable et noter les explications que tu étudies.
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =======================================================
+         ONGLET : JOURNAL
+    ======================================================== -->
+
+    <section class="section" id="journal">
+      <div class="grid">
+
+        <article class="card full">
+          <div class="card-title">
+            <h2>Question du jour</h2>
+
+            <button
+              class="button secondary"
+              id="newPrompt"
+              type="button"
+            >
+              ✨ Nouvelle question
+            </button>
+          </div>
+
+          <div class="prompt">
+            <p id="promptText">
+              Pour quelles bénédictions suis-je reconnaissante
+              aujourd’hui ?
+            </p>
+          </div>
+
+          <div class="field" style="margin-top: 17px;">
+            <label class="field-label" for="journalAnswer">
+              Ma réponse
+            </label>
+
+            <textarea
+              class="lined"
+              id="journalAnswer"
+              data-save
+              placeholder="Écris librement, sans chercher la perfection..."
+            ></textarea>
+          </div>
+
+          <input id="savedPrompt" type="hidden" data-save />
+        </article>
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Ma gratitude</h2>
+            <span class="badge">Al-ḥamdu lillāh</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="gratitude1">
+              Une bénédiction
+            </label>
+
+            <input
+              id="gratitude1"
+              type="text"
+              data-save
+              placeholder="Aujourd’hui, je remercie Allah pour..."
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="gratitude2">
+              Une petite joie
+            </label>
+
+            <input
+              id="gratitude2"
+              type="text"
+              data-save
+              placeholder="Un moment qui m’a fait sourire..."
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="gratitude3">
+              Une personne
+            </label>
+
+            <input
+              id="gratitude3"
+              type="text"
+              data-save
+              placeholder="Une personne pour laquelle je suis reconnaissante..."
+            />
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Mon état intérieur</h2>
+            <span class="badge">Douceur</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="mood">
+              Mon humeur
+            </label>
+
+            <select id="mood" data-save>
+              <option value="">Choisir...</option>
+              <option>🌸 Apaisée</option>
+              <option>✨ Motivée</option>
+              <option>😊 Joyeuse</option>
+              <option>🌧️ Triste</option>
+              <option>🌪️ Stressée</option>
+              <option>😴 Fatiguée</option>
+              <option>🌱 En progression</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="heart">
+              Ce qui occupe mon cœur
+            </label>
+
+            <textarea
+              id="heart"
+              data-save
+              placeholder="Dépose ici ce que tu ressens..."
+            ></textarea>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =======================================================
+         ONGLET : BILAN
+    ======================================================== -->
+
+    <section class="section" id="review">
+      <div class="grid">
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Ma plus belle chose</h2>
+            <span class="badge">Aujourd’hui</span>
+          </div>
+
+          <textarea
+            id="bestThing"
+            data-save
+            placeholder="Un beau moment, même tout petit..."
+          ></textarea>
+        </article>
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Ce que j’ai appris</h2>
+            <span class="badge">Évolution</span>
+          </div>
+
+          <textarea
+            id="learnedToday"
+            data-save
+            placeholder="Une leçon ou une prise de conscience..."
+          ></textarea>
+        </article>
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Avec douceur</h2>
+            <span class="badge">Sans culpabilité</span>
+          </div>
+
+          <textarea
+            id="improvement"
+            data-save
+            placeholder="Ce que je pourrais améliorer progressivement..."
+          ></textarea>
+        </article>
+
+        <article class="card">
+          <div class="card-title">
+            <h2>Je dépose…</h2>
+            <span class="badge">Lâcher prise</span>
+          </div>
+
+          <textarea
+            id="release"
+            data-save
+            placeholder="Ce que je ne souhaite pas emporter demain..."
+          ></textarea>
+        </article>
+
+        <article class="card full">
+          <div class="card-title">
+            <h2>Ma priorité pour demain</h2>
+            <span class="badge">Nouveau départ</span>
+          </div>
+
+          <input
+            id="tomorrowPriority"
+            type="text"
+            data-save
+            placeholder="Demain, mon petit pas prioritaire sera..."
+          />
+
+          <div class="actions">
+            <button
+              class="button"
+              id="celebrateButton"
+              type="button"
+            >
+              🌸 Terminer ma journée
+            </button>
+
+            <button
+              class="button secondary"
+              id="printButton"
+              type="button"
+            >
+              🖨️ Imprimer
+            </button>
+
+            <button
+              class="button secondary"
+              id="exportButton"
+              type="button"
+            >
+              📥 Exporter mes données
+            </button>
+
+            <button
+              class="button danger"
+              id="resetButton"
+              type="button"
+            >
+              🗑️ Effacer cette journée
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <footer>
+      <strong>
+        Un jour à la fois, avec sincérité et douceur 🤍
+      </strong>
+
+      <br />
+
+      Les données sont enregistrées localement dans ton navigateur.
+      Ce planner est un outil personnel d’organisation et ne remplace
+      pas l’accompagnement d’une personne qualifiée pour les questions
+      religieuses.
+    </footer>
+
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    /* =========================================================
+       ÉLÉMENTS PRINCIPAUX
+    ========================================================= */
+
+    const plannerDate = document.getElementById("plannerDate");
+    const saveStatus = document.getElementById("saveStatus");
+    const toast = document.getElementById("toast");
+
+    const dailyFields = [
+      ...document.querySelectorAll("[data-save]")
+    ];
+
+    const progressFields = [
+      ...document.querySelectorAll("[data-progress]")
+    ];
+
+    const today = new Date();
+
+    const localToday = new Date(
+      today.getTime() - today.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
+
+    plannerDate.value = localToday;
+
+    /* =========================================================
+       QUESTIONS DE JOURNALING
+    ========================================================= */
+
+    const prompts = [
+      "Pour quelles bénédictions suis-je reconnaissante aujourd’hui ?",
+      "À quel moment ai-je ressenti le plus de paix aujourd’hui ?",
+      "Qu’est-ce qui occupe mon cœur en ce moment ?",
+      "Quelle difficulté puis-je confier à Allah ?",
+      "Quelle intention aimerais-je purifier ou renouveler ?",
+      "Ai-je été douce avec moi-même et avec les autres ?",
+      "Quelle qualité aimerais-je développer progressivement ?",
+      "Quelle habitude aimerais-je remplacer par une meilleure ?",
+      "Qu’ai-je appris sur moi-même aujourd’hui ?",
+      "Quelle bonne action ai-je accomplie, même petite ?",
+      "À qui pourrais-je offrir mon pardon ou présenter mes excuses ?",
+      "Comment puis-je utiliser mon temps avec plus de sagesse ?",
+      "Quel verset ou rappel m’a touchée récemment ?",
+      "Quelle du‘ā ai-je particulièrement envie de faire ?",
+      "De quoi ai-je besoin pour retrouver un meilleur équilibre ?",
+      "Qu’est-ce que je peux arrêter d’exiger de moi-même ?",
+      "Quel petit pas me rapprocherait de la personne que je souhaite devenir ?",
+      "Quelle épreuve m’a appris quelque chose d’important ?",
+      "Comment puis-je montrer davantage de gratitude aujourd’hui ?",
+      "Quelle peur ai-je besoin de déposer et de ne plus porter seule ?"
+    ];
+
+    function dayPromptIndex() {
+      const dateNumber = Number(
+        plannerDate.value.replaceAll("-", "")
+      );
+
+      return dateNumber % prompts.length;
+    }
+
+    /* =========================================================
+       SAUVEGARDE QUOTIDIENNE
+    ========================================================= */
+
+    function getDailyKey() {
+      return `planner-islamique-day-${plannerDate.value}`;
+    }
+
+    function getFieldValue(field) {
+      if (field.type === "checkbox") {
+        return field.checked;
+      }
+
+      return field.value;
+    }
+
+    function setFieldValue(field, value) {
+      if (field.type === "checkbox") {
+        field.checked = Boolean(value);
+      } else {
+        field.value = value ?? "";
+      }
+    }
+
+    function resetField(field) {
+      if (field.type === "checkbox") {
+        field.checked = false;
+      } else if (field.type === "range") {
+        field.value = "0";
+      } else {
+        field.value = "";
+      }
+    }
+
+    function saveDay() {
+      const data = {};
+
+      dailyFields.forEach((field) => {
+        data[field.id] = getFieldValue(field);
+      });
+
+      localStorage.setItem(
+        getDailyKey(),
+        JSON.stringify(data)
+      );
+
+      saveStatus.textContent = "✓ Sauvegardé";
+
+      updateProgress();
+      updateInvocationCards();
+
+      window.clearTimeout(saveDay.statusTimer);
+
+      saveDay.statusTimer = window.setTimeout(() => {
+        saveStatus.textContent = "✓ Sauvegarde automatique";
+      }, 1300);
+    }
+
+    function loadDay() {
+      const saved = JSON.parse(
+        localStorage.getItem(getDailyKey()) || "{}"
+      );
+
+      dailyFields.forEach((field) => {
+        if (
+          Object.prototype.hasOwnProperty.call(
+            saved,
+            field.id
+          )
+        ) {
+          setFieldValue(field, saved[field.id]);
+        } else {
+          resetField(field);
+        }
+      });
+
+      const savedPrompt =
+        document.getElementById("savedPrompt");
+
+      if (!savedPrompt.value) {
+        savedPrompt.value = prompts[dayPromptIndex()];
+      }
+
+      document.getElementById("promptText").textContent =
+        savedPrompt.value;
+
+      updateSurahProgress();
+      applyMenstruationMode(false);
+      updateInvocationCards();
+      updateProgress();
+    }
+
+    dailyFields.forEach((field) => {
+      field.addEventListener("input", saveDay);
+      field.addEventListener("change", saveDay);
+    });
+
+    plannerDate.addEventListener("change", loadDay);
+
+    /* =========================================================
+       PROGRESSION QUOTIDIENNE
+    ========================================================= */
+
+    function updateProgress() {
+      const periodActive =
+        document.getElementById("menstruationMode").checked;
+
+      /*
+        Lorsque l’option est activée, les cinq prières ne sont
+        pas incluses dans le calcul de progression.
+      */
+
+      const activeProgressFields = progressFields.filter(
+        (field) => {
+          const isPrayer =
+            field.hasAttribute("data-prayer");
+
+          return !(periodActive && isPrayer);
+        }
+      );
+
+      const completed = activeProgressFields.filter(
+        (field) => field.checked
+      ).length;
+
+      const percentage = activeProgressFields.length
+        ? Math.round(
+            (completed / activeProgressFields.length) * 100
+          )
+        : 0;
+
+      const ring =
+        document.getElementById("progressRing");
+
+      const number =
+        document.getElementById("progressNumber");
+
+      const message =
+        document.getElementById("progressMessage");
+
+      ring.style.setProperty(
+        "--progress",
+        `${percentage * 3.6}deg`
+      );
+
+      number.textContent = `${percentage}%`;
+
+      if (periodActive && percentage === 0) {
+        message.textContent =
+          "Les prières sont retirées de ta progression. Prends soin de ta spiritualité avec douceur 🌸";
+      } else if (percentage === 0) {
+        message.textContent =
+          "Chaque petit pas compte. Commence à ton rythme 🤍";
+      } else if (percentage < 40) {
+        message.textContent =
+          "Tu as commencé, et c’est déjà une belle avancée 🌱";
+      } else if (percentage < 75) {
+        message.textContent =
+          "Tu progresses avec constance, continue avec douceur 🌸";
+      } else if (percentage < 100) {
+        message.textContent =
+          "Une très belle journée : encore quelques petits pas ✨";
+      } else {
+        message.textContent =
+          "Mā shā’ Allāh, tes essentiels du jour sont accomplis 🌙";
+      }
+    }
+
+    /* =========================================================
+       MODE PÉRIODE DE MENSTRUES
+    ========================================================= */
+
+    const menstruationMode =
+      document.getElementById("menstruationMode");
+
+    const prayerGrid =
+      document.getElementById("prayerGrid");
+
+    const prayerFields = [
+      ...document.querySelectorAll("[data-prayer]")
+    ];
+
+    function applyMenstruationMode(clearPrayers = true) {
+      const isActive = menstruationMode.checked;
+
+      prayerGrid.classList.toggle(
+        "period-active",
+        isActive
+      );
+
+      prayerFields.forEach((prayer) => {
+        prayer.disabled = isActive;
+
+        if (isActive && clearPrayers) {
+          prayer.checked = false;
+        }
+      });
+
+      updateProgress();
+    }
+
+    menstruationMode.addEventListener("change", () => {
+      applyMenstruationMode(true);
+      saveDay();
+
+      if (menstruationMode.checked) {
+        showToast(
+          "Mode période de menstrues activé 🌸 Les prières ne sont plus comptées."
+        );
+      } else {
+        showToast(
+          "Suivi habituel des prières réactivé 🌙"
+        );
+      }
+    });
+
+    /* =========================================================
+       APPARENCE DES INVOCATIONS TERMINÉES
+    ========================================================= */
+
+    const invocationChecks = [
+      ...document.querySelectorAll(".invocation-check")
+    ];
+
+    function updateInvocationCards() {
+      invocationChecks.forEach((checkbox) => {
+        const card =
+          checkbox.closest(".invocation-card");
+
+        if (card) {
+          card.classList.toggle(
+            "completed",
+            checkbox.checked
+          );
+        }
+      });
+    }
+
+    invocationChecks.forEach((checkbox) => {
+      checkbox.addEventListener(
+        "change",
+        updateInvocationCards
+      );
+    });
+
+    /* =========================================================
+       NAVIGATION ENTRE LES ONGLETS
+    ========================================================= */
+
+    const tabs = [
+      ...document.querySelectorAll(".tab")
+    ];
+
+    const sections = [
+      ...document.querySelectorAll(".section")
+    ];
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = tab.dataset.tab;
+
+        tabs.forEach((item) => {
+          item.classList.toggle(
+            "active",
+            item === tab
+          );
+        });
+
+        sections.forEach((section) => {
+          section.classList.toggle(
+            "active",
+            section.id === target
+          );
+        });
+
+        window.scrollTo({
+          top:
+            document.querySelector(".tabs").offsetTop - 10,
+          behavior: "smooth"
+        });
+      });
+    });
+
+    /* =========================================================
+       MODE SOMBRE
+    ========================================================= */
+
+    const themeButton =
+      document.getElementById("themeButton");
+
+    function applyTheme() {
+      const dark =
+        localStorage.getItem("planner-theme") === "dark";
+
+      document.body.classList.toggle("dark", dark);
+      themeButton.textContent = dark ? "☀️" : "🌙";
+    }
+
+    themeButton.addEventListener("click", () => {
+      const willBeDark =
+        !document.body.classList.contains("dark");
+
+      localStorage.setItem(
+        "planner-theme",
+        willBeDark ? "dark" : "light"
+      );
+
+      applyTheme();
+    });
+
+    /* =========================================================
+       PROGRESSION DE LA SOURATE
+    ========================================================= */
+
+    const surahProgress =
+      document.getElementById("surahProgress");
+
+    const surahProgressValue =
+      document.getElementById("surahProgressValue");
+
+    function updateSurahProgress() {
+      surahProgressValue.textContent =
+        `${surahProgress.value}%`;
+    }
+
+    surahProgress.addEventListener(
+      "input",
+      updateSurahProgress
+    );
+
+    /* =========================================================
+       NOUVELLE QUESTION DE JOURNALING
+    ========================================================= */
+
+    document
+      .getElementById("newPrompt")
+      .addEventListener("click", () => {
+        const promptText =
+          document.getElementById("promptText");
+
+        const current = promptText.textContent.trim();
+        let next = current;
+
+        while (
+          next === current &&
+          prompts.length > 1
+        ) {
+          next =
+            prompts[
+              Math.floor(Math.random() * prompts.length)
+            ];
+        }
+
+        promptText.textContent = next;
+
+        document.getElementById("savedPrompt").value =
+          next;
+
+        saveDay();
+        showToast("Nouvelle question choisie ✨");
+      });
+
+    /* =========================================================
+       MODULE DES 99 NOMS
+    ========================================================= */
+
+    const nameFields = {
+      arabic:
+        document.getElementById("nameArabic"),
+
+      transliteration:
+        document.getElementById("nameTransliteration"),
+
+      meaning:
+        document.getElementById("nameMeaning"),
+
+      reflection:
+        document.getElementById("nameReflection"),
+
+      source:
+        document.getElementById("nameSource")
+    };
+
+    let currentName = Number(
+      localStorage.getItem("planner-current-name") || 1
+    );
+
+    let namesData = JSON.parse(
+      localStorage.getItem("planner-names-data") || "{}"
+    );
+
+    function saveNamesData() {
+      localStorage.setItem(
+        "planner-names-data",
+        JSON.stringify(namesData)
+      );
+
+      localStorage.setItem(
+        "planner-current-name",
+        String(currentName)
+      );
+    }
+
+    function currentNameData() {
+      if (!namesData[currentName]) {
+        namesData[currentName] = {
+          arabic: "",
+          transliteration: "",
+          meaning: "",
+          reflection: "",
+          source: "",
+          learned: false
+        };
+      }
+
+      return namesData[currentName];
+    }
+
+    function saveCurrentNameFields() {
+      const data = currentNameData();
+
+      data.arabic =
+        nameFields.arabic.value;
+
+      data.transliteration =
+        nameFields.transliteration.value;
+
+      data.meaning =
+        nameFields.meaning.value;
+
+      data.reflection =
+        nameFields.reflection.value;
+
+      data.source =
+        nameFields.source.value;
+
+      saveNamesData();
+    }
+
+    function renderNameGrid() {
+      const grid =
+        document.getElementById("nameGrid");
+
+      grid.innerHTML = "";
+
+      for (let i = 1; i <= 99; i++) {
+        const button =
+          document.createElement("button");
+
+        button.type = "button";
+        button.className = "name-dot";
+        button.textContent = i;
+        button.title = `Nom numéro ${i}`;
+
+        if (i === currentName) {
+          button.classList.add("current");
+        }
+
+        if (namesData[i]?.learned) {
+          button.classList.add("learned");
+        }
+
+        button.addEventListener("click", () => {
+          saveCurrentNameFields();
+          currentName = i;
+          renderCurrentName();
+        });
+
+        grid.appendChild(button);
+      }
+    }
+
+    function renderCurrentName() {
+      const data = currentNameData();
+
+      document.getElementById(
+        "currentNameNumber"
+      ).textContent = currentName;
+
+      nameFields.arabic.value =
+        data.arabic || "";
+
+      nameFields.transliteration.value =
+        data.transliteration || "";
+
+      nameFields.meaning.value =
+        data.meaning || "";
+
+      nameFields.reflection.value =
+        data.reflection || "";
+
+      nameFields.source.value =
+        data.source || "";
+
+      document.getElementById(
+        "learnName"
+      ).textContent = data.learned
+        ? "↩ Marquer à réviser"
+        : "✓ Marquer comme appris";
+
+      const learnedCount = Object.values(
+        namesData
+      ).filter((item) => item.learned).length;
+
+      document.getElementById(
+        "learnedBadge"
+      ).textContent = `${learnedCount} / 99 appris`;
+
+      saveNamesData();
+      renderNameGrid();
+    }
+
+    Object.values(nameFields).forEach((field) => {
+      field.addEventListener(
+        "input",
+        saveCurrentNameFields
+      );
+    });
+
+    document
+      .getElementById("previousName")
+      .addEventListener("click", () => {
+        saveCurrentNameFields();
+
+        currentName =
+          currentName > 1 ? currentName - 1 : 99;
+
+        renderCurrentName();
+      });
+
+    document
+      .getElementById("nextName")
+      .addEventListener("click", () => {
+        saveCurrentNameFields();
+
+        currentName =
+          currentName < 99 ? currentName + 1 : 1;
+
+        renderCurrentName();
+      });
+
+    document
+      .getElementById("learnName")
+      .addEventListener("click", () => {
+        const data = currentNameData();
+
+        data.learned = !data.learned;
+
+        saveNamesData();
+        renderCurrentName();
+
+        showToast(
+          data.learned
+            ? "Nom ajouté à tes acquis 🌸"
+            : "Nom marqué à réviser"
+        );
+      });
+
+    /* =========================================================
+       BOUTONS DU BILAN
+    ========================================================= */
+
+    document
+      .getElementById("celebrateButton")
+      .addEventListener("click", () => {
+        showToast(
+          "Mā shā’ Allāh 🌸 Sois fière de chaque petit effort accompli."
+        );
+      });
+
+    document
+      .getElementById("printButton")
+      .addEventListener("click", () => {
+        window.print();
+      });
+
+    /* =========================================================
+       EXPORT DES DONNÉES
+    ========================================================= */
+
+    document
+      .getElementById("exportButton")
+      .addEventListener("click", () => {
+        saveDay();
+        saveCurrentNameFields();
+
+        const backup = {};
+
+        for (
+          let i = 0;
+          i < localStorage.length;
+          i++
+        ) {
+          const key = localStorage.key(i);
+
+          if (
+            key &&
+            key.startsWith("planner-")
+          ) {
+            backup[key] =
+              localStorage.getItem(key);
+          }
+        }
+
+        const file = new Blob(
+          [JSON.stringify(backup, null, 2)],
+          { type: "application/json" }
+        );
+
+        const link =
+          document.createElement("a");
+
+        link.href =
+          URL.createObjectURL(file);
+
+        link.download =
+          `sauvegarde-planner-${plannerDate.value}.json`;
+
+        link.click();
+
+        URL.revokeObjectURL(link.href);
+
+        showToast(
+          "Sauvegarde exportée avec succès 📥"
+        );
+      });
+
+    /* =========================================================
+       RÉINITIALISATION DE LA JOURNÉE
+    ========================================================= */
+
+    document
+      .getElementById("resetButton")
+      .addEventListener("click", () => {
+        const confirmation = confirm(
+          `Effacer toutes les réponses du ${plannerDate.value} ?`
+        );
+
+        if (!confirmation) {
+          return;
+        }
+
+        localStorage.removeItem(getDailyKey());
+
+        loadDay();
+
+        showToast(
+          "La journée a été réinitialisée"
+        );
+      });
+
+    /* =========================================================
+       NOTIFICATIONS
+    ========================================================= */
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("visible");
+
+      window.clearTimeout(showToast.timer);
+
+      showToast.timer = window.setTimeout(() => {
+        toast.classList.remove("visible");
+      }, 2800);
+    }
+
+    /* =========================================================
+       INITIALISATION
+    ========================================================= */
+
+    applyTheme();
+    loadDay();
+    renderCurrentName();
+  </script>
+</body>
+</html>
